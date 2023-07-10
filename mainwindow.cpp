@@ -3,7 +3,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-//    setFixedSize(610, 248);
+    setFixedSize(540, 346);
 
     // First column
     QLayout *first_column_layout = new QVBoxLayout();

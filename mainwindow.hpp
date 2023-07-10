@@ -39,7 +39,7 @@ private:
     QCheckBox *remove_checkbox;
     QComboBox *action_if_exists;
     QCheckBox *timer_checkbox;
-    // 8-bit Mask
+    // 8-bit Mask value
     QSpinBox *spinbox;
     std::ifstream fin;
     std::ofstream fout;
@@ -50,6 +50,10 @@ private:
         std::string outputFile = output_file_lineedit->text().toStdString();
         auto pos = outputFile.rfind('.');
         std::string extension {outputFile.substr(pos)};
+
+        if (!std::filesystem::exists(inputFile) || !std::filesystem::exists(outputFile)){
+            qDebug() << "File not exists!";
+        }
 
         if (action_if_exists->currentText() == "Increment filename"){
             int i {1};
@@ -108,8 +112,8 @@ public slots:
     }
 
     void startConvertion(){
-        qDebug() << size();
         if (timer_checkbox->isChecked()){
+            timer.stop();
             timer.setInterval(time_edit->time().hour()*60*60*1000 + time_edit->time().minute()*60*1000);
             connect(&timer, &QTimer::timeout, this, &MainWindow::convert);
             timer.start();
